@@ -1,0 +1,709 @@
+:root {
+    --bg-main: #0c0e0f;
+    --widget-bg: #141617;
+    --widget-border: rgba(255, 255, 255, 0.02);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-blue: #38bdf8;
+    --card-gradient: linear-gradient(135deg, #2a201c, #111a2e);
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --transition-speed: 0.25s;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Floating Glass Header */
+.dashboard-header {
+    background-color: rgba(20, 22, 23, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#city-input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 10px 16px;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#city-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+#search-btn {
+    background: linear-gradient(135deg, #38bdf8, #2563eb);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#search-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+#locate-btn {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+#locate-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dashboard Container Layout (3 Columns) */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 370px 1fr 310px;
+    gap: 24px;
+    padding: 30px 40px;
+    max-width: 1650px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.dashboard-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Widgets Styling */
+.widget {
+    background-color: var(--widget-bg);
+    border-radius: 24px;
+    border: 1px solid var(--widget-border);
+    padding: 26px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Left Panel - Weather Gradient Card */
+.main-weather-card {
+    background: var(--card-gradient);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 290px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.location-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.location-icon {
+    font-size: 1.1rem;
+}
+
+#location-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.last-updated {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.weather-main-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.weather-visuals {
+    display: flex;
+    flex-direction: column;
+}
+
+.large-weather-icon {
+    font-size: 3.4rem;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.temp-display {
+    font-size: 4rem;
+    font-weight: 300;
+    display: flex;
+    align-items: flex-start;
+    line-height: 1;
+}
+
+#current-temp {
+    font-weight: 700;
+    background: linear-gradient(to bottom, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.temp-unit {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--accent-blue);
+    margin-left: 2px;
+}
+
+.weather-desc {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin: 4px 0 0 0;
+}
+
+/* Mockup Stacked Colored Indicator Dots */
+.vertical-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot-orange { background-color: #f97316; box-shadow: 0 0 8px rgba(249, 115, 22, 0.4); }
+.dot-blue { background-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+.dot-purple { background-color: #a855f7; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4); }
+.dot-gray { background-color: #64748b; }
+
+/* Quick Access Tabs */
+.quick-cities-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 16px;
+}
+
+.city-tab {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px 6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.25s ease;
+}
+
+.city-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.city-tab.active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tab-city-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.city-tab.active .tab-city-name {
+    color: #ffffff;
+}
+
+.tab-city-temp {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* 6 Metrics grid styling */
+.metrics-panel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.metric-card {
+    background-color: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.2);
+}
+
+.metric-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 8px;
+}
+
+/* Center Column - Forecast header & canvas chart */
+.forecast-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.forecast-days-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.forecast-days-header::-webkit-scrollbar {
+    height: 4px;
+}
+
+.forecast-days-header::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.forecast-day-card {
+    flex: 1;
+    min-width: 60px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 14px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.forecast-card-name {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.forecast-card-icon {
+    font-size: 1.3rem;
+}
+
+.forecast-card-temp {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.forecast-graph-container {
+    margin-top: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+#forecast-chart {
+    width: 100%;
+    height: 180px;
+    display: block;
+}
+
+/* Center Column - Air Quality Overview styling */
+.air-quality-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.aqi-header {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.aqi-content {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+/* Circular Gauge Ring styling */
+.aqi-gauge-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 130px;
+}
+
+.aqi-gauge-container {
+    width: 110px;
+    height: 110px;
+    position: relative;
+}
+
+.aqi-ring {
+    width: 100%;
+    height: 100%;
+}
+
+.aqi-ring-bg {
+    stroke: rgba(255, 255, 255, 0.03);
+    stroke-width: 8;
+    fill: none;
+}
+
+.aqi-ring-fill {
+    stroke-width: 8;
+    stroke-linecap: round;
+    fill: none;
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
+    transform: rotate(-90deg);
+    transform-origin: 60px 60px;
+    transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
+}
+
+.aqi-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aqi-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.aqi-value {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.aqi-status-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* 2x3 pollutant metric grid styling */
+.aqi-pollutants-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.pollutant-card {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.pollutant-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pollutant-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-green { background-color: #10b981; }
+.dot-yellow { background-color: #eab308; }
+.dot-orange { background-color: #f97316; }
+.dot-red { background-color: #ef4444; }
+
+.pollutant-val {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.pollutant-name {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Right Panel - Sunrise & Sunset */
+.sun-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.sun-times-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sun-time-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+    padding: 14px 18px;
+    border-radius: 16px;
+}
+
+.sun-icon {
+    font-size: 1.6rem;
+}
+
+.sun-time-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.sun-time-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.sun-time-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Right Panel - Chances of Rain progress bar lists */
+.rain-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.rain-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.rain-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.rain-day-name {
+    width: 85px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.rain-bar-container {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.rain-bar-fill {
+    height: 100%;
+    background-color: #2563eb;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.rain-percent {
+    width: 35px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    text-align: right;
+}
+
+.rain-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding-left: 97px; /* Align precisely with the start of the progress bar */
+    margin-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.05);
+    padding-top: 8px;
+}
+
+/* Responsive Scaling Breakpoints */
+@media (max-width: 1200px) {
+    .dashboard-container {
+        grid-template-columns: 1fr 1.2fr;
+        padding: 24px;
+    }
+
+    .col-right {
+        grid-column: span 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 850px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
+    .col-right {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .brand {
+        text-align: center;
+    }
+
+    .search-box {
+        justify-content: center;
+    }
+
+    #city-input {
+        width: 100%;
+    }
+
+    .dashboard-container {
+        padding: 16px;
+    }
+
+    .aqi-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .aqi-pollutants-grid {
+        width: 100%;
+    }
+}

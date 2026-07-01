@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Floating Header Search Bar -->
+        <header class="dashboard-header">
+            <div class="brand">🌤️ SkyFlow</div>
+            <div class="search-box">
+                <input type="text" id="city-input" placeholder="Search city name...">
+                <button id="search-btn">Search</button>
+                <button id="locate-btn" title="Use current location">📍</button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard 3-Column Grid -->
+        <div class="dashboard-container">
+
+            <!-- COLUMN 1: Current Weather & Metrics Grid -->
+            <div class="dashboard-col col-left">
+                <!-- Current Weather Card -->
+                <main class="widget main-weather-card">
+                    <div class="card-header">
+                        <div class="location-container">
+                            <span class="location-icon">📍</span>
+                            <span id="location-name">Bengaluru</span>
+                        </div>
+                        <span id="last-updated" class="last-updated">Last Updated, --</span>
+                    </div>
+
+                    <div class="weather-main-display">
+                        <div class="weather-visuals">
+                            <span id="weather-icon-display" class="large-weather-icon">☀️</span>
+                            <div class="temp-display">
+                                <span id="current-temp">--</span><span class="temp-unit">°C</span>
+                            </div>
+                            <p id="weather-desc" class="weather-desc">Partly cloudy</p>
+                        </div>
+                        <!-- Decorative Stacked Dot Indicators from Mockup -->
+                        <div class="vertical-dots">
+                            <span class="dot dot-orange"></span>
+                            <span class="dot dot-blue"></span>
+                            <span class="dot dot-purple"></span>
+                            <span class="dot dot-gray"></span>
+                        </div>
+                    </div>
+
+                    <!-- City Selector Horizontal Tabs -->
+                    <div class="quick-cities-tabs">
+                        <button class="city-tab active" data-city="Bangalore">
+                            <span class="tab-city-name">Bangalore</span>
+                            <span id="tab-temp-bangalore" class="tab-city-temp">--</span>
+                        </button>
+                        <button class="city-tab" data-city="Ajmer">
+                            <span class="tab-city-name">Ajmer</span>
+                            <span id="tab-temp-ajmer" class="tab-city-temp">--</span>
+                        </button>
+                        <button class="city-tab" data-city="Hyderabad">
+                            <span class="tab-city-name">Hyderabad</span>
+                            <span id="tab-temp-hyderabad" class="tab-city-temp">--</span>
+                        </button>
+                    </div>
+                </main>
+
+                <!-- Metrics Grid (6 Metrics) -->
+                <section class="widget metrics-panel">
+                    <div class="metric-card">
+                        <div class="metric-title">💧 Humidity</div>
+                        <div class="metric-value"><span id="humidity">--</span> %</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">💨 Wind Speed</div>
+                        <div class="metric-value"><span id="wind-speed">--</span> Kph</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">👁️ Visibility</div>
+                        <div class="metric-value"><span id="visibility">--</span> KM</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">🌡️ Pressure</div>
+                        <div class="metric-value"><span id="pressure">--</span> mm</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">☀️ UV Index</div>
+                        <div class="metric-value"><span id="uv-index">--</span></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">🌧️ Precipitation</div>
+                        <div class="metric-value"><span id="precipitation">--</span> mm</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMN 2: Forecast + Graph & Air Quality -->
+            <div class="dashboard-col col-center">
+                <!-- Forecast Widget with 7-Day Header & Line Graph -->
+                <section class="widget forecast-card">
+                    <!-- Forecast 7 Days Slider -->
+                    <div class="forecast-days-header" id="forecast-days-container">
+                        <!-- Dynamic Forecast Cards injected here -->
+                    </div>
+
+                    <!-- Line Graph Canvas -->
+                    <div class="forecast-graph-container">
+                        <div class="graph-title">Weather Forecast</div>
+                        <canvas id="forecast-chart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Air Quality Overview Card -->
+                <section class="widget air-quality-card">
+                    <div class="aqi-header">Air Quality Overview</div>
+                    <div class="aqi-content">
+                        <!-- Left Gauge -->
+                        <div class="aqi-gauge-section">
+                            <div class="aqi-gauge-container">
+                                <svg class="aqi-ring" viewBox="0 0 120 120">
+                                    <circle class="aqi-ring-bg" cx="60" cy="60" r="50"></circle>
+                                    <circle class="aqi-ring-fill" cx="60" cy="60" r="50" id="aqi-fill-ring"></circle>
+                                </svg>
+                                <div class="aqi-text">
+                                    <span class="aqi-label">Good</span>
+                                    <span class="aqi-value" id="aqi-value">--</span>
+                                </div>
+                            </div>
+                            <div class="aqi-status-text" id="aqi-status">Air is clean and healthy</div>
+                        </div>
+
+                        <!-- Right Pollutant Grid -->
+                        <div class="aqi-pollutants-grid">
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-green" id="dot-pm10"></span>
+                                    <span class="pollutant-val" id="pollutant-pm10">--</span>
+                                </div>
+                                <span class="pollutant-name">PM10</span>
+                            </div>
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-yellow" id="dot-o3"></span>
+                                    <span class="pollutant-val" id="pollutant-o3">--</span>
+                                </div>
+                                <span class="pollutant-name">O₃</span>
+                            </div>
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-green" id="dot-so2"></span>
+                                    <span class="pollutant-val" id="pollutant-so2">--</span>
+                                </div>
+                                <span class="pollutant-name">SO₂</span>
+                            </div>
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-yellow" id="dot-pm25"></span>
+                                    <span class="pollutant-val" id="pollutant-pm25">--</span>
+                                </div>
+                                <span class="pollutant-name">PM2.5</span>
+                            </div>
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-orange" id="dot-co"></span>
+                                    <span class="pollutant-val" id="pollutant-co">--</span>
+                                </div>
+                                <span class="pollutant-name">CO</span>
+                            </div>
+                            <div class="pollutant-card">
+                                <div class="pollutant-info">
+                                    <span class="pollutant-dot dot-green" id="dot-no2"></span>
+                                    <span class="pollutant-val" id="pollutant-no2">--</span>
+                                </div>
+                                <span class="pollutant-name">NO₂</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMN 3: Sunrise/Sunset & Chances of Rain -->
+            <div class="dashboard-col col-right">
+                <!-- Sunrise and Sunset Widget -->
+                <section class="widget sun-card">
+                    <div class="widget-title">Sunrise and Sunset</div>
+                    <div class="sun-times-container">
+                        <div class="sun-time-row">
+                            <span class="sun-icon">☀️</span>
+                            <div class="sun-time-details">
+                                <span class="sun-time-label">Sunrise</span>
+                                <span id="sunrise-time" class="sun-time-value">--:-- AM</span>
+                            </div>
+                        </div>
+                        <div class="sun-time-row">
+                            <span class="sun-icon">🌙</span>
+                            <div class="sun-time-details">
+                                <span class="sun-time-label">Sunset</span>
+                                <span id="sunset-time" class="sun-time-value">--:-- PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chances of Rain Widget -->
+                <section class="widget rain-card">
+                    <div class="widget-title">Chances of Rain</div>
+                    <div class="rain-list" id="rain-list-container">
+                        <!-- Rain bars will be dynamically loaded here -->
+                    </div>
+                    <!-- Chart X-axis Scale -->
+                    <div class="rain-scale">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
